@@ -1,0 +1,12 @@
+@{
+    ViewData["Title"] = "Permissions";
+}
+
+<h1>Permissions</h1>
+
+<ul>
+    @foreach (var permission in Model ?? Enumerable.Empty<string>())
+    {
+        <li>@permission</li>
+    }
+</ul>

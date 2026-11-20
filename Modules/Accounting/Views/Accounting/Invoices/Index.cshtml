@@ -1,0 +1,33 @@
+@{
+    ViewData["Title"] = "Invoices";
+}
+
+<h1>Invoices</h1>
+
+<p>
+    <a asp-action="Create">Create invoice</a>
+</p>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Number</th>
+            <th>Customer</th>
+            <th>Date</th>
+            <th>Amount</th>
+            <th>Status</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var invoice in Model ?? Enumerable.Empty<dynamic>())
+        {
+            <tr>
+                <td>@invoice.Number</td>
+                <td>@invoice.Customer</td>
+                <td>@invoice.IssuedOn</td>
+                <td>@invoice.Amount</td>
+                <td>@invoice.Status</td>
+            </tr>
+        }
+    </tbody>
+</table>

@@ -1,0 +1,27 @@
+@{
+    ViewData["Title"] = "Users";
+}
+
+<h1>Users</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Username</th>
+            <th>Email</th>
+            <th>Access level</th>
+            <th>Status</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var user in Model ?? Enumerable.Empty<dynamic>())
+        {
+            <tr>
+                <td>@user.UserName</td>
+                <td>@user.Email</td>
+                <td>@user.AccessLevel</td>
+                <td>@(user.IsActive ? "Active" : "Disabled")</td>
+            </tr>
+        }
+    </tbody>
+</table>

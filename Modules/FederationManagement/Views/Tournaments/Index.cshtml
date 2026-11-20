@@ -1,0 +1,2 @@
+@model IReadOnlyList<Modular.Modules.FederationManagement.Application.TournamentDto>
+<div class="container py-4" dir="rtl"><h1 class="h3">مسابقات</h1><a class="btn btn-primary" href="/federation/tournaments/create">مسابقه جدید</a><table class="table table-striped mt-3"><thead><tr><th>عنوان</th><th>تاریخ</th><th>محل</th><th>وضعیت</th></tr></thead><tbody>@foreach(var t in Model){<tr><td>@t.Name</td><td>@t.StartDate</td><td>@t.Venue</td><td>@t.Status</td></tr>}</tbody></table></div>

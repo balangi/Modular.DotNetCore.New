@@ -1,0 +1,3 @@
+using Microsoft.Extensions.DependencyInjection;
+namespace Modular.Modules.FederationManagement;
+public sealed class FederationManagementModule : Modular.Core.Modules.IModule { public string Id => "federation-management"; public string Name => "مدیریت فدراسیون"; public string RequiredLicenseType => "SportsFederation"; public bool RequiresEnabledLicense => true; public void ConfigureServices(IServiceCollection services) { services.AddSingleton<Application.FederationManagementStore>(); services.AddScoped<Application.FederationManagementService>(); services.AddSingleton<Application.FederationManagementValidator>(); } }

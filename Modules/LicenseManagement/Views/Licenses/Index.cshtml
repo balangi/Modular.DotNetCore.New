@@ -1,0 +1,2 @@
+@model IReadOnlyCollection<Modular.Modules.Contracts.LicenseRecord>
+<h1>Licenses</h1><a asp-action="Create">Register license</a><table><tr><th>Product</th><th>Customer</th><th>Tenant</th><th>Status</th><th>Expires</th></tr>@foreach(var x in Model){<tr><td><a asp-action="Details" asp-route-id="@x.Id">@x.Product</a></td><td>@x.Customer</td><td>@x.TenantId</td><td>@x.Status</td><td>@x.ExpiresUtc</td></tr>}</table>

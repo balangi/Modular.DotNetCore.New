@@ -1,0 +1,2 @@
+@model IReadOnlyList<Modular.Modules.FederationManagement.Application.AthleteDto>
+<div class="container py-4" dir="rtl"><h1 class="h3">ورزشکاران فدراسیون</h1><a class="btn btn-primary" href="/federation/athletes/create">ثبت ورزشکار</a><table class="table table-striped mt-3"><thead><tr><th>نام</th><th>کد ملی</th><th>باشگاه</th><th>کمربند</th><th>رتبه</th></tr></thead><tbody>@foreach(var a in Model){<tr><td>@a.FullName</td><td>@a.NationalId</td><td>@a.ClubName</td><td>@a.Belt</td><td>@a.Rank</td></tr>}</tbody></table></div>

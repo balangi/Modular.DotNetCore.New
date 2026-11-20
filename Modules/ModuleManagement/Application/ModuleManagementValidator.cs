@@ -1,0 +1,5 @@
+#nullable enable
+namespace Modular.Modules.ModuleManagement.Application;
+public sealed class ModuleManagementValidator { public ValidationResult Validate(ModuleInput x) { var e=new List<string>(); if(string.IsNullOrWhiteSpace(x.Id)||x.Id.Length>100)e.Add("Id is required and must be at most 100 characters."); if(!string.IsNullOrWhiteSpace(x.Id)&&x.Id.Any(c=>!(char.IsLetterOrDigit(c)||c is '-' or '_' or '.')))e.Add("Id may contain letters, digits, '-', '_', and '.'."); if(string.IsNullOrWhiteSpace(x.Name)||x.Name.Length>200)e.Add("Name is required and must be at most 200 characters."); if(string.IsNullOrWhiteSpace(x.Version)||x.Version.Length>50)e.Add("Version is required and must be at most 50 characters."); if(x.Dependencies.Any(string.IsNullOrWhiteSpace))e.Add("Dependencies cannot contain empty values."); return new(e); } }
+public sealed record ModuleInput(string Id,string Name,string Version,string Description,Modular.Modules.Contracts.ModuleKind Kind,IReadOnlyCollection<string> Dependencies);
+public sealed record ValidationResult(IReadOnlyCollection<string> Errors){public bool IsValid=>Errors.Count==0;}

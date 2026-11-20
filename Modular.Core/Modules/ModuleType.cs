@@ -1,0 +1,2 @@
+namespace Modular.Core.Modules;
+

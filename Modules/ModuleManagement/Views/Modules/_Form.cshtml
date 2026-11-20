@@ -1,0 +1,2 @@
+@model Modular.Modules.ModuleManagement.Application.ModuleInput
+<div asp-validation-summary="All"></div><form method="post"><label>Id <input asp-for="Id" /></label><label>Name <input asp-for="Name" /></label><label>Version <input asp-for="Version" /></label><label>Description <textarea asp-for="Description"></textarea></label><label>Kind <select asp-for="Kind" asp-items="Html.GetEnumSelectList<Modular.Modules.Contracts.ModuleKind>()"></select></label><button type="submit">Save</button></form>

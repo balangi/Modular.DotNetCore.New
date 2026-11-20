@@ -1,0 +1,17 @@
+@model Modular.Web.Areas.Admin.Controllers.ModuleEditModel
+
+<form method="post">
+    <label>
+        Id <input asp-for="Id" readonly="@(Model.Id != "")" />
+    </label>
+    <label>
+        Name <input asp-for="Name" />
+    </label>
+    <label>
+        Description <textarea asp-for="Description"></textarea>
+    </label>
+    <label>
+        Required license <input asp-for="RequiredLicense" />
+    </label>
+    <button type="submit">Save</button>
+</form>

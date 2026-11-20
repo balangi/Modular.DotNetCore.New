@@ -1,0 +1,10 @@
+<Solution>
+  <Folder Name="/Modules/">
+    <Project Path="Modules/Accounting/Modular.Modules.Accounting.csproj" />
+    <Project Path="Modules/IdentityManagement/Modular.Modules.Identity.csproj" />
+  </Folder>
+  <Project Path="Modular.Application/Modular.Application.csproj" />
+  <Project Path="Modular.Core/Modular.Core.csproj" />
+  <Project Path="Modular.Infrastructure/Modular.Infrastructure.csproj" />
+  <Project Path="Modular.Web/Modular.Web.csproj" />
+</Solution>

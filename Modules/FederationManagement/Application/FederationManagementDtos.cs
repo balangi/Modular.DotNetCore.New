@@ -1,0 +1,10 @@
+namespace Modular.Modules.FederationManagement.Application;
+public sealed record AthleteDto(Guid Id,string FullName,DateOnly BirthDate,string NationalId,Guid ClubId,string ClubName,string Belt,int Rank,bool IsActive);
+public sealed record ClubDto(Guid Id,string Name,string City,string RegistrationCode);
+public sealed record TournamentDto(Guid Id,string Name,DateOnly StartDate,string Venue,string Status,int AthleteCount);
+public sealed record MatchDto(Guid Id,Guid TournamentId,Guid RedAthleteId,Guid BlueAthleteId,int? RedScore,int? BlueScore,Guid? WinnerId);
+public sealed record RankingDto(Guid AthleteId,string AthleteName,string ClubName,string Belt,int Grade,int Wins,int Losses,int Points);
+public sealed record RegisterAthleteRequest(string FullName,DateOnly BirthDate,string NationalId,Guid ClubId,string Belt,int Rank);
+public sealed record CreateClubRequest(string Name,string City,string RegistrationCode);
+public sealed record CreateTournamentRequest(string Name,DateOnly StartDate,string Venue);
+public sealed record RecordResultRequest(int RedScore,int BlueScore);

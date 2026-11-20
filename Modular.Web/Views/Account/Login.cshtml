@@ -1,0 +1,18 @@
+@model Modular.Web.Controllers.LoginViewModel
+
+<h1>Sign in</h1>
+
+<form method="post">
+	<input type="hidden" asp-for="ReturnUrl"/>
+	<label>User name <input asp-for="UserName"/>
+	</label>
+	<span asp-validation-for="UserName"/>
+	<br/>
+	<label>Password <input asp-for="Password"/>
+	</label>
+	<span asp-validation-for="Password"/>
+	<br/>
+	<button type="submit">Sign in</button>
+</form>
+
+<p>Demo: admin, accounting, federation / Pass123!</p>
