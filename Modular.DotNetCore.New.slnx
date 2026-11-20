@@ -1,6 +1,7 @@
 <Solution>
   <Folder Name="/Modules/">
     <Project Path="Modules/Accounting/Modular.Modules.Accounting.csproj" />
+    <Project Path="Modules/FederationManagement/Modular.Modules.FederationManagement.csproj" />
     <Project Path="Modules/IdentityManagement/Modular.Modules.Identity.csproj" />
   </Folder>
   <Project Path="Modular.Application/Modular.Application.csproj" />

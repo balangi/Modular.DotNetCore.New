@@ -1,1 +1,48 @@
-using Microsoft.AspNetCore.Mvc; using Modular.Modules.FederationManagement.Application; namespace Modular.Modules.FederationManagement.Controllers; [ApiController,Route("federation/tournaments"),ServiceFilter(typeof(FederationLicenseGuardFilter))] public sealed class FederationTournamentsController(FederationManagementService s):Controller { [HttpGet] public IActionResult Index()=>View("~/Views/Tournaments/Index.cshtml",s.GetTournaments()); [HttpGet("create")] public IActionResult Create()=>View("~/Views/Tournaments/Create.cshtml"); [HttpPost("create"),ValidateAntiForgeryToken] public IActionResult Create(CreateTournamentRequest r){try{s.CreateTournament(r);return RedirectToAction(nameof(Index));}catch(ArgumentException e){ModelState.AddModelError("",e.Message);return View("~/Views/Tournaments/Create.cshtml",r);}} [HttpPost("{id:guid}/pair"),ValidateAntiForgeryToken] public IActionResult Pair(Guid id)=>Ok(s.PairTournament(id)); [HttpPost("matches/{id:guid}/result"),ValidateAntiForgeryToken] public IActionResult Result(Guid id,RecordResultRequest r)=>Ok(s.RecordResult(id,r.RedScore,r.BlueScore)); [HttpGet("rankings")] public IActionResult Rankings()=>Ok(s.GetRankings()); }
+using Microsoft.AspNetCore.Mvc;
+using Modular.Modules.FederationManagement.Application;
+
+namespace Modular.Modules.FederationManagement.Controllers;
+
+[ApiController, Route("federation/tournaments"), ServiceFilter(typeof(FederationLicenseGuardFilter))]
+public sealed class FederationTournamentsController(FederationManagementService s) : Controller
+{
+    [HttpGet]
+    public IActionResult Index()
+    {
+        return View("~/Views/Tournaments/Index.cshtml", s.GetTournaments());
+    }
+
+    [HttpGet("create")]
+    public IActionResult Create()
+    {
+        return View("~/Views/Tournaments/Create.cshtml");
+    }
+
+    [HttpPost("create"), ValidateAntiForgeryToken]
+    public IActionResult Create(CreateTournamentRequest r)
+    {
+        try { s.CreateTournament(r); return RedirectToAction(nameof(Index)); }
+        catch (ArgumentException e)
+        {
+            ModelState.AddModelError("", e.Message); return View("~/Views/Tournaments/Create.cshtml", r);
+        }
+    }
+
+    [HttpPost("{id:guid}/pair"), ValidateAntiForgeryToken]
+    public IActionResult Pair(Guid id)
+    {
+        return Ok(s.PairTournament(id));
+    }
+
+    [HttpPost("matches/{id:guid}/result"), ValidateAntiForgeryToken]
+    public IActionResult Result(Guid id, RecordResultRequest r)
+    {
+        return Ok(s.RecordResult(id, r.RedScore, r.BlueScore));
+    }
+
+    [HttpGet("rankings")]
+    public IActionResult Rankings()
+    {
+        return Ok(s.GetRankings());
+    }
+}

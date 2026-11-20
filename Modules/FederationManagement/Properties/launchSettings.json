@@ -1,0 +1,12 @@
+{
+  "profiles": {
+    "Modular.Modules.FederationManagement": {
+      "commandName": "Project",
+      "launchBrowser": true,
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      },
+      "applicationUrl": "https://localhost:64701;http://localhost:64702"
+    }
+  }
+}

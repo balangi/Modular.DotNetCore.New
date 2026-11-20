@@ -37,7 +37,10 @@ public sealed class AccountController(IAuthenticationService authentication) : C
         claims.AddRange(user.Roles.Select(x => new Claim(ClaimTypes.Role, x)));
         claims.AddRange(user.Features.Select(x => new Claim("feature", x)));
         await HttpContext.SignInAsync(MockIdentityDefaults.Scheme, new ClaimsPrincipal(new ClaimsIdentity(claims, MockIdentityDefaults.Scheme)));
-        return LocalRedirect(string.IsNullOrWhiteSpace(model.ReturnUrl) ? "/Public/Home/Index" : model.ReturnUrl);
+        return LocalRedirect(string.IsNullOrWhiteSpace(model.ReturnUrl)
+            ? "/Public/Home/Index"
+            : model.ReturnUrl
+            );
     }
 
     [HttpGet]
@@ -66,6 +69,6 @@ public sealed class LoginViewModel
     public string UserName { get; set; } = "";
 
     [System.ComponentModel.DataAnnotations.Required, System.ComponentModel.DataAnnotations.DataType(System.ComponentModel.DataAnnotations.DataType.Password)]
-    public string Password { get; set; } = ""; 
+    public string Password { get; set; } = "";
     public string? ReturnUrl { get; set; }
 }

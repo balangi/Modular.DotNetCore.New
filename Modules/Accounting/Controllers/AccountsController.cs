@@ -11,6 +11,6 @@ public sealed class AccountsController(IAccountingService service) : Controller
     [HttpGet]
     public IActionResult Index()
     {
-        return Ok(service.Accounts());
+        return View(service.Accounts());
     }
 }

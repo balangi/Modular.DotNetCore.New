@@ -11,10 +11,20 @@ builder.Services.AddControllersWithViews(options =>
     options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute());
 });
 
-builder.Services.AddAuthentication(MockIdentityDefaults.Scheme).AddCookie(options =>
+// در فایل Program.cs پروژه Modular.Web
+
+builder.Services.AddAuthentication(options =>
+{
+    // اسکییم پیش‌فرض را مشخص کنید
+    options.DefaultScheme = "ModularCookie";
+    options.DefaultChallengeScheme = "ModularCookie";
+    options.DefaultAuthenticateScheme = "ModularCookie";
+})
+.AddCookie("ModularCookie", options => // نام دقیق اسکییم اینجا ثبت می‌شود
 {
     options.LoginPath = "/Account/Login";
     options.AccessDeniedPath = "/Public/Home/AccessDenied";
+    options.Cookie.Name = "ModularApp.Auth";
 });
 
 builder.Services.AddAuthorization(options =>
@@ -23,6 +33,13 @@ builder.Services.AddAuthorization(options =>
     options.AddPolicy("AccountingAccess", policy => policy.AddRequirements(new ModuleRequirement("Accounting", "Accounting")));
     options.AddPolicy("FederationAccess", policy => policy.AddRequirements(new ModuleRequirement("Federation", "SportsFederation")));
 });
+
+builder.Services.AddControllersWithViews()
+    .AddApplicationPart(typeof(Modular.Modules.Accounting.Controllers.AccountingHomeController).Assembly);
+
+builder.Services.AddSingleton<Modular.Modules.Accounting.Application.IAccountingService, Modular.Modules.Accounting.Application.InMemoryAccountingService>();
+builder.Services.AddSingleton<Modular.Modules.Accounting.Application.AccountingValidator>();
+
 
 builder.Services.AddSingleton<IAuthorizationPolicyProvider, ModuleAuthorizationPolicyProvider>();
 builder.Services.AddSingleton<IAuthorizationHandler, ModuleAuthorizationHandler>();
