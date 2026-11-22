@@ -9,15 +9,17 @@
 		<AddRazorSupportForMvc>true</AddRazorSupportForMvc>
 		<PreserveCompilationContext>true</PreserveCompilationContext>
 		<CopyRefAssembliesToPublishDirectory>true</CopyRefAssembliesToPublishDirectory>
+	
+		<!-- ضروری برای ساخت مانیفست فایل‌های Embedded -->
+		<GenerateEmbeddedFilesManifest>true</GenerateEmbeddedFilesManifest>
 	</PropertyGroup>
 
+	<!-- معرفی فایل‌های داخل wwwroot به عنوان Embedded Resource -->
 	<ItemGroup>
-		<!-- کپی کردن پوشه wwwroot ماژول به خروجی build -->
-		<Content Update="wwwroot\**\*">
-			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-			<CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-		</Content>
-		
+		<EmbeddedResource Include="wwwroot\**\*" />
+	</ItemGroup>
+
+	<ItemGroup>
 		<!-- در صورت نیاز به استفاده از کنترلرها و ویژگی‌های وب در ماژول -->
 		<FrameworkReference Include="Microsoft.AspNetCore.App" />
 	</ItemGroup>

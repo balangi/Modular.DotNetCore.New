@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.Extensions.FileProviders;
-using Microsoft.Extensions.Logging;
 using Modular.Infrastructure.Runtime.Modules;
 using Modular.Web.Authorization;
 using Modular.Web.Navigation;
@@ -126,23 +125,35 @@ if (!app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 
-// ۲. سرویس فایل‌های استاتیک ماژول‌ها از پوشه /Modules
+// بارگذاری پویای فایل‌های استاتیکِ Embedded از اسمبلی ماژول‌ها
+// ۲. سرویس فایل‌های Embedded از DLL ماژول‌ها
 var modulesPath = Path.Combine(builder.Environment.ContentRootPath, "Modules");
 if (Directory.Exists(modulesPath))
 {
-    // این خط تمام پوشه‌های wwwroot داخل ماژول‌ها را کشف و با پیشوند /modules سرو می‌کند
-    foreach (var moduleDir in Directory.GetDirectories(modulesPath))
+    foreach (var dllPath in Directory.GetFiles(modulesPath, "Modular.Modules.*.dll"))
     {
-        var moduleWwwRoot = Path.Combine(moduleDir, "wwwroot");
-        if (Directory.Exists(moduleWwwRoot))
+        try
         {
-            var moduleName = Path.GetFileName(moduleDir).ToLowerInvariant();
-
-            app.UseStaticFiles(new StaticFileOptions
+            var assembly = Assembly.LoadFrom(dllPath);
+            // نام اسمبلی مثلا Modular.Modules.Accounting است -> تبدیل به accounting
+            var assemblyNameParts = assembly.GetName().Name?.Split('.');
+            if (assemblyNameParts is { Length: >= 3 })
             {
-                FileProvider = new PhysicalFileProvider(moduleWwwRoot),
-                RequestPath = $"/modules/{moduleName}"
-            });
+                var moduleName = assemblyNameParts[2].ToLowerInvariant(); // accounting
+
+                // مانیفست فایل‌های embedded را از اسمبلی می‌خواند
+                var embeddedProvider = new ManifestEmbeddedFileProvider(assembly, "wwwroot");
+
+                app.UseStaticFiles(new StaticFileOptions
+                {
+                    FileProvider = embeddedProvider,
+                    RequestPath = $"/modules/{moduleName}"
+                });
+            }
+        }
+        catch
+        {
+            // نادیده گرفتن خطاهای بارگذاری سایر DLLها
         }
     }
 }
