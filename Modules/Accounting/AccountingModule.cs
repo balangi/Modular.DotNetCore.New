@@ -1,36 +1,21 @@
-#nullable enable
+using Microsoft.Extensions.DependencyInjection;
+using Modular.Infrastructure.Runtime.Modules;
 using Modular.Modules.Accounting.Application;
-using Modular.Modules.Contracts;
 
 namespace Modular.Modules.Accounting;
 
-public sealed class AccountingModule(ILicenseService license) : IModule
+public sealed class AccountingModule : IRuntimeModule
 {
-    public string Id
-    {
-        get
-        {
-            return "accounting";
-        }
-    }
+    public string Id => "accounting";
+    public Version Version => new(1, 3, 0);
+    public string Name => "Accounting";
 
-    public string Name
-    {
-        get
-        {
-            return "Accounting";
-        }
-    }
+    public IEnumerable<string> Dependencies => Array.Empty<string>();
 
-    public void RegisterServices(IServiceCollection services)
+    public void ConfigureServices(IServiceCollection services)
     {
-        if (!license.IsEnabled("Accounting"))
-            throw new InvalidOperationException("Accounting license is missing or disabled.");
+        // ثبت سرویس‌های ماژول حسابداری
         services.AddSingleton<IAccountingService, InMemoryAccountingService>();
         services.AddSingleton<AccountingValidator>();
-    }
-
-    public void MapEndpoints(IEndpointRouteBuilder endpoints)
-    {
     }
 }

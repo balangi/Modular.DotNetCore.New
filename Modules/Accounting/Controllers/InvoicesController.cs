@@ -11,7 +11,7 @@ public sealed class InvoicesController(IAccountingService service, AccountingVal
     [HttpGet]
     public IActionResult Index()
     {
-        return Ok(service.Invoices());
+        return View(service.Invoices());
     }
 
     [HttpPost]
@@ -20,7 +20,7 @@ public sealed class InvoicesController(IAccountingService service, AccountingVal
         var errors = validator.ValidateInvoice(request.Number, request.Customer, request.Amount, request.IssuedOn);
         return errors.Count > 0 
             ? BadRequest(errors) 
-            : Ok(service.CreateInvoice(request.Number, request.Customer, request.Amount, request.IssuedOn));
+            : View(service.CreateInvoice(request.Number, request.Customer, request.Amount, request.IssuedOn));
     }
 
     public sealed record CreateInvoiceRequest(string Number, string Customer, decimal Amount, DateOnly IssuedOn);

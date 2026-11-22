@@ -5,16 +5,21 @@
 		<meta name="viewport" content="width=device-width,initial-scale=1"/>
 		<title>Modular MVC</title>
 		<style>body{font-family:system-ui;max-width:1000px;margin:2rem auto;padding:0 1rem}nav a{margin-right:1rem}table{width:100%;border-collapse:collapse}td,th{padding:.5rem;border-bottom:1px solid #ddd}.error{color:#b00020}</style>
+
+		@await RenderSectionAsync("Styles", required: false)
 	</head>
 	<body>
 		<nav>
 			<a href="/Public/Home/Index">Home</a>
 			<a href="/Admin/Dashboard/Index">Admin</a>
-			<a href="/Accounting/AccountingHome/Index">Accounting</a>
+			<a href="/Accounting/Accounts">Accounting</a>
+			<a href="/Accounting/invoices">Invoices</a>
 			<a href="/Federation/FederationHome/Index">Federation</a>
 		</nav>
 		<main>
 			@RenderBody()
 		</main>
+
+		@await RenderSectionAsync("Scripts", required: false)
 	</body>
 </html>

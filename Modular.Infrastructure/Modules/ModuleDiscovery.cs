@@ -7,6 +7,7 @@ namespace Modular.Infrastructure.Runtime.Modules;
 public interface IRuntimeModule
 {
     string Id { get; }
+    string Name { get; }
     Version Version { get; }
     IEnumerable<string> Dependencies => Array.Empty<string>();
     void ConfigureServices(IServiceCollection services);

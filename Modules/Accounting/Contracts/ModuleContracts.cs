@@ -1,5 +1,8 @@
 #nullable enable
 
+using Microsoft.AspNetCore.Routing;
+using Microsoft.Extensions.DependencyInjection;
+
 namespace Modular.Modules.Contracts;
 
 public interface IModule

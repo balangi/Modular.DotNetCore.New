@@ -1,3 +1,5 @@
+using Microsoft.Extensions.DependencyInjection;
+
 namespace Modular.Modules.FederationManagement;
 
 public sealed class FederationManagementModule : Modular.Core.Modules.IModule
