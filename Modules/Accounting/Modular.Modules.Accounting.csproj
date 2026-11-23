@@ -1,27 +1,26 @@
 <Project Sdk="Microsoft.NET.Sdk.Razor">
-
 	<PropertyGroup>
 		<TargetFramework>net11.0</TargetFramework>
 		<Nullable>enable</Nullable>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<BaseOutputPath>D:\- Source Repository -\- Test -\Modular.DotNetCore.New\Modular.Web\Modules</BaseOutputPath>
-
 		<AddRazorSupportForMvc>true</AddRazorSupportForMvc>
-		<PreserveCompilationContext>true</PreserveCompilationContext>
-		<CopyRefAssembliesToPublishDirectory>true</CopyRefAssembliesToPublishDirectory>
-	
-		<!-- ضروری برای ساخت مانیفست فایل‌های Embedded -->
+
+		<!-- ۱. فعال‌سازی اجباری مانیفست Embedded -->
 		<GenerateEmbeddedFilesManifest>true</GenerateEmbeddedFilesManifest>
 	</PropertyGroup>
 
-	<!-- معرفی فایل‌های داخل wwwroot به عنوان Embedded Resource -->
+	<!-- ۲. معرفی دقیق فایل‌های wwwroot به عنوان منابع Embedded -->
 	<ItemGroup>
 		<EmbeddedResource Include="wwwroot\**\*" />
 	</ItemGroup>
 
 	<ItemGroup>
-		<!-- در صورت نیاز به استفاده از کنترلرها و ویژگی‌های وب در ماژول -->
 		<FrameworkReference Include="Microsoft.AspNetCore.App" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <PackageReference Include="Microsoft.Extensions.FileProviders.Embedded" Version="11.0.0" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -29,5 +28,4 @@
 		<ProjectReference Include="..\..\Modular.Application\Modular.Application.csproj" />
 		<ProjectReference Include="..\..\Modular.Infrastructure\Modular.Infrastructure.csproj" />
 	</ItemGroup>
-
 </Project>

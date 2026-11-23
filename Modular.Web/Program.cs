@@ -2,7 +2,6 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
-using Microsoft.Extensions.FileProviders;
 using Modular.Infrastructure.Runtime.Modules;
 using Modular.Web.Authorization;
 using Modular.Web.Navigation;
@@ -126,34 +125,36 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 // بارگذاری پویای فایل‌های استاتیکِ Embedded از اسمبلی ماژول‌ها
-// ۲. سرویس فایل‌های Embedded از DLL ماژول‌ها
 var modulesPath = Path.Combine(builder.Environment.ContentRootPath, "Modules");
 if (Directory.Exists(modulesPath))
 {
-    foreach (var dllPath in Directory.GetFiles(modulesPath, "Modular.Modules.*.dll"))
+    foreach (var moduleDir in Directory.GetDirectories(modulesPath))
     {
-        try
-        {
-            var assembly = Assembly.LoadFrom(dllPath);
-            // نام اسمبلی مثلا Modular.Modules.Accounting است -> تبدیل به accounting
-            var assemblyNameParts = assembly.GetName().Name?.Split('.');
-            if (assemblyNameParts is { Length: >= 3 })
-            {
-                var moduleName = assemblyNameParts[2].ToLowerInvariant(); // accounting
+        var moduleName = Path.GetFileName(moduleDir);
 
-                // مانیفست فایل‌های embedded را از اسمبلی می‌خواند
-                var embeddedProvider = new ManifestEmbeddedFileProvider(assembly, "wwwroot");
+        // پیدا کردن اسمبلی لود شده‌ی مربوط به این ماژول
+        // (فرضیه: نام اسمبلی بر اساس نام ماژول است، مثلاً Modular.Modules.Accounting)
+        var assemblyName = $"Modular.Modules.{moduleName}";
+        var assembly = AppDomain.CurrentDomain.GetAssemblies()
+            .FirstOrDefault(a => a.GetName().Name == assemblyName);
+
+        if (assembly != null)
+        {
+            try
+            {
+                // استفاده از ManifestEmbeddedFileProvider برای خواندن مستقیم از داخل DLL
+                var fileProvider = new Microsoft.Extensions.FileProviders.ManifestEmbeddedFileProvider(assembly, "wwwroot");
 
                 app.UseStaticFiles(new StaticFileOptions
                 {
-                    FileProvider = embeddedProvider,
-                    RequestPath = $"/modules/{moduleName}"
+                    FileProvider = fileProvider,
+                    RequestPath = $"/modules/{moduleName.ToLower()}"
                 });
             }
-        }
-        catch
-        {
-            // نادیده گرفتن خطاهای بارگذاری سایر DLLها
+            catch
+            {
+                // اگر مانیفست embedded برای این اسمبلی فعال نبود، نادیده گرفته شود
+            }
         }
     }
 }
